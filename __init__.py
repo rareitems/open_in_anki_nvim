@@ -25,7 +25,7 @@ def figure_out_terminal():
     return None
 
 
-def open_link(note_id, open_type, query):
+def open_link(note_id, open_type, query, card_id):
     config = mw.addonManager.getConfig(__name__)
     terminal = config['terminal']
     run_last_tooltip = True
@@ -45,7 +45,7 @@ def open_link(note_id, open_type, query):
 
     subprocess.Popen(
         [terminal, "nvim",
-            f"+lua require([[anki]])._open_note([[{note_id}]], [[{open_type}]], [[{query}]])"],
+            f"+lua require([[anki]])._open_note([[{note_id}]], [[{card_id}]], [[{open_type}]], [[{query}]])"],
         stdin=None,
         stdout=None,
         stderr=None
@@ -57,17 +57,19 @@ def open_link_browser():
     browser = aqt.dialogs._dialogs["Browser"][1]
     query = browser.form.searchEdit.lineEdit().text()
     note_id = None
+    card_id = None
     if browser is not None:
         note_id = browser.card.nid
+        card_id = browser.card.id
     if note_id:
-        open_link(note_id, "browser", query)
+        open_link(note_id, "browser", query, card_id)
     else:
         tooltip("No note is selected.")
 
 
 def open_link_reviewer():
     if mw.state == "review" and mw.reviewer.card:
-        open_link(mw.reviewer.card.nid, "reviewer", "")
+        open_link(mw.reviewer.card.nid, "reviewer", "", 0)
     else:
         tooltip("No note is being reviewed.")
 
