@@ -1,4 +1,4 @@
-# anki-nvim-view
+# open_in_anki_nvim
 
 If you use Neovim and [anki.nvim](https://github.com/rareitems/anki.nvim) this plugin is for you if you want to edit your Anki notes in Neovim.
 
